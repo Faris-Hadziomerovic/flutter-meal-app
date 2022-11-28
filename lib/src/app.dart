@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:meal_app/src/widgets/category_meals_screen.dart';
+import 'package:meal_app/src/screens/category_meals_screen.dart';
 
-import 'widgets/categories_screen.dart';
+import './screens/categories_screen.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
