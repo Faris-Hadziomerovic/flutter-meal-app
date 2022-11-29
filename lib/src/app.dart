@@ -16,7 +16,7 @@ class App extends StatelessWidget {
         primarySwatch: Colors.pink,
         // ignore: deprecated_member_use
         accentColor: Colors.amber,
-        canvasColor: const Color.fromARGB(255, 212, 212, 212),
+        canvasColor: const Color.fromARGB(255, 238, 238, 238),
         fontFamily: 'Raleway',
         textTheme: ThemeData.light().textTheme.copyWith(
               bodyText1: const TextStyle(
@@ -25,12 +25,20 @@ class App extends StatelessWidget {
               bodyText2: const TextStyle(
                 color: Color.fromARGB(255, 20, 51, 51),
               ),
+              headline5: const TextStyle(
+                fontFamily: 'Raleway',
+                fontSize: 30,
+                color: Color.fromARGB(255, 255, 255, 255),
+              ),
               headline6: const TextStyle(
                 fontFamily: 'Roboto',
                 fontSize: 24,
                 color: Color.fromARGB(255, 51, 20, 20),
               ),
             ),
+        cardTheme: const CardTheme(
+          elevation: 5,
+        ),
       ),
       home: const CategoriesScreen(),
       routes: {
