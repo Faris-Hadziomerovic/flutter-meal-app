@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:meal_app/src/widgets/meal_item.dart';
 
+import '../widgets/meal_item.dart';
 import '../data/dummy_data.dart';
 
 class CategoryMealsScreen extends StatelessWidget {
@@ -30,6 +30,7 @@ class CategoryMealsScreen extends StatelessWidget {
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 5),
             child: MealItem(
+              id: meal.id,
               title: meal.title,
               imageUrl: meal.imageUrl,
               duration: meal.duration,
