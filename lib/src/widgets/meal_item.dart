@@ -4,74 +4,97 @@ import 'package:intl/intl.dart' show toBeginningOfSentenceCase;
 import '../models/meal.dart';
 
 class MealItem extends StatelessWidget {
-  final Meal meal;
+  final String title;
+  final String imageUrl;
+  final int duration;
+  final Complexity complexity;
+  final Affordability affordability;
 
-  const MealItem({super.key, required this.meal});
-
-  String toCapitalized(String text) {
-    return text[0].toUpperCase() + text.substring(1);
-  }
+  const MealItem({
+    super.key,
+    required this.title,
+    required this.imageUrl,
+    required this.duration,
+    required this.complexity,
+    required this.affordability,
+  });
 
   @override
   Widget build(BuildContext context) {
-    const borderRadius = Radius.circular(15);
-    final durationLabel = '${meal.duration} min';
-    final complexityLabel = toBeginningOfSentenceCase(meal.complexity.name) ?? meal.complexity.name;
-    final affordabilityLabel =
-        toBeginningOfSentenceCase(meal.affordability.name) ?? meal.affordability.name;
+    final durationLabel = '$duration min';
+    final complexityLabel = toBeginningOfSentenceCase(complexity.name) ?? complexity.name;
+    final affordabilityLabel = toBeginningOfSentenceCase(affordability.name) ?? affordability.name;
 
     return Card(
+      clipBehavior: Clip.antiAlias,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(borderRadius),
+        borderRadius: BorderRadius.all(Radius.circular(15)),
       ),
       child: Column(
         children: [
-          Container(
-            clipBehavior: Clip.antiAlias,
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.vertical(top: borderRadius),
-            ),
-            child: Stack(
-              alignment: Alignment.bottomRight,
-              children: [
-                Image.network(meal.imageUrl),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 25.0),
-                  child: Container(
-                    color: Colors.black54,
-                    width: 300,
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 5,
-                      horizontal: 15,
-                    ),
-                    child: Text(
-                      meal.title,
-                      style: Theme.of(context).textTheme.headline5,
+          Stack(
+            children: [
+              Image.network(
+                imageUrl,
+                fit: BoxFit.cover,
+                height: 250,
+                width: double.infinity,
+              ),
+              Positioned(
+                bottom: 30,
+                right: 0,
+                child: Container(
+                  width: 300,
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.centerLeft,
+                      end: Alignment.center,
+                      colors: [
+                        Colors.transparent,
+                        Colors.black54,
+                        Colors.black54,
+                        Colors.black54,
+                      ],
                     ),
                   ),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 5,
+                    horizontal: 30,
+                  ),
+                  child: Text(
+                    title,
+                    style: Theme.of(context).textTheme.headline5,
+                    softWrap: true,
+                    overflow: TextOverflow.fade,
+                  ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
           Padding(
-            padding: const EdgeInsets.all(5.0),
+            padding: const EdgeInsets.all(15.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                TextButton.icon(
-                  onPressed: null,
-                  icon: const Icon(Icons.access_time_rounded),
-                  label: Text(durationLabel),
+                Row(
+                  children: [
+                    const Icon(Icons.access_time_rounded),
+                    const SizedBox(width: 5),
+                    Text(durationLabel),
+                  ],
                 ),
-                TextButton.icon(
-                  onPressed: null,
-                  icon: const Icon(Icons.cases_rounded),
-                  label: Text(complexityLabel),
+                Row(
+                  children: [
+                    const Icon(Icons.work),
+                    const SizedBox(width: 5),
+                    Text(complexityLabel),
+                  ],
                 ),
-                TextButton.icon(
-                  onPressed: null,
-                  icon: const Icon(Icons.attach_money_rounded),
-                  label: Text(affordabilityLabel),
+                Row(
+                  children: [
+                    const Icon(Icons.attach_money_rounded),
+                    Text(affordabilityLabel),
+                  ],
                 ),
               ],
             ),

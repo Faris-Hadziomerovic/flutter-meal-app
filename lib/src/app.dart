@@ -17,7 +17,11 @@ class App extends StatelessWidget {
         // ignore: deprecated_member_use
         accentColor: Colors.amber,
         canvasColor: const Color.fromARGB(255, 238, 238, 238),
+        cardTheme: const CardTheme(
+          elevation: 5,
+        ),
         fontFamily: 'Raleway',
+        iconTheme: ThemeData.light().iconTheme.copyWith(color: Colors.black54),
         textTheme: ThemeData.light().textTheme.copyWith(
               bodyText1: const TextStyle(
                 color: Color.fromARGB(255, 20, 51, 51),
@@ -36,9 +40,6 @@ class App extends StatelessWidget {
                 color: Color.fromARGB(255, 51, 20, 20),
               ),
             ),
-        cardTheme: const CardTheme(
-          elevation: 5,
-        ),
       ),
       home: const CategoriesScreen(),
       routes: {
