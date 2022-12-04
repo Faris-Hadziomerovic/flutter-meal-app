@@ -29,7 +29,13 @@ class CategoryMealsScreen extends StatelessWidget {
           final meal = meals[index];
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 5),
-            child: MealItem(meal: meal),
+            child: MealItem(
+              title: meal.title,
+              imageUrl: meal.imageUrl,
+              duration: meal.duration,
+              complexity: meal.complexity,
+              affordability: meal.affordability,
+            ),
           );
         },
       ),
