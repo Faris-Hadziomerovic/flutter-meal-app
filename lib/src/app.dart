@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meal_app/src/screens/category_meals_screen.dart';
 import 'package:meal_app/src/screens/meal_details_screen.dart';
@@ -12,7 +11,6 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'DeliMeals',
-      scrollBehavior: const CupertinoScrollBehavior(),
       theme: ThemeData(
         primarySwatch: Colors.pink,
         // ignore: deprecated_member_use

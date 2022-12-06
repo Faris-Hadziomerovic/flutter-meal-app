@@ -14,6 +14,8 @@ class CategoriesScreen extends StatelessWidget {
       ),
       body: GridView(
         padding: const EdgeInsets.all(15),
+        physics: const BouncingScrollPhysics(),
+        controller: ScrollController(initialScrollOffset: 1),
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: 200,
           childAspectRatio: 3 / 2,

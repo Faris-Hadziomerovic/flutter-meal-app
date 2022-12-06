@@ -12,7 +12,6 @@ class CategoryMealsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final routeArgs = ModalRoute.of(context)?.settings.arguments as Map<String, String>;
 
-    // ignore: unused_local_variable
     final categoryId = routeArgs['id'];
     final categoryTitle = routeArgs['title'];
 
@@ -23,6 +22,8 @@ class CategoryMealsScreen extends StatelessWidget {
         title: Text('$categoryTitle Recipes'),
       ),
       body: ListView.builder(
+        physics: const BouncingScrollPhysics(),
+        controller: ScrollController(initialScrollOffset: 1),
         padding: const EdgeInsets.symmetric(horizontal: 5),
         itemCount: meals.length,
         itemBuilder: (ctx, index) {

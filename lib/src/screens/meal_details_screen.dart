@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/meal_details_toggle_buttons.dart';
 import '../data/dummy_data.dart';
 
 class MealDetailsScreen extends StatelessWidget {
@@ -13,6 +14,7 @@ class MealDetailsScreen extends StatelessWidget {
     final meal = dummyMeals.firstWhere((meal) => meal.id == mealId);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(meal.title),
       ),
@@ -20,33 +22,26 @@ class MealDetailsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              clipBehavior: Clip.antiAlias,
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.vertical(bottom: Radius.circular(15)),
-              ),
-              child: Image.network(
-                meal.imageUrl,
-                width: double.infinity,
-                height: 250,
-                fit: BoxFit.cover,
-              ),
+            Image.network(
+              meal.imageUrl,
+              width: double.infinity,
+              height: 250,
+              fit: BoxFit.cover,
             ),
             Container(
               padding: const EdgeInsets.only(
                 left: 15,
                 right: 15,
                 top: 10,
-                bottom: 20,
               ),
               child: Text(
                 meal.title,
                 style: Theme.of(context).textTheme.headline4,
               ),
             ),
-            Flex(
-              direction: Axis.vertical,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+            const Divider(height: 30),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Row(
                   children: [
@@ -70,6 +65,11 @@ class MealDetailsScreen extends StatelessWidget {
                 ),
               ],
             ),
+            const SizedBox(height: 15),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 0.0),
+              child: MealDetailsToggleButtons(ingredients: meal.ingredients, steps: meal.steps),
+            )
           ],
         ),
       ),
