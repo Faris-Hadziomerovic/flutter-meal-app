@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:meal_app/src/screens/category_meals_screen.dart';
-import 'package:meal_app/src/screens/meal_details_screen.dart';
 
+import './screens/tabs_screen.dart';
 import './screens/categories_screen.dart';
+import './screens/favourites_screen.dart';
+import './screens/category_meals_screen.dart';
+import './screens/meal_details_screen.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
+
+  Scaffold buildScaffold({required Widget body, String title = ''}) {
+    return Scaffold(
+      appBar: title.isNotEmpty ? AppBar(title: Text(title)) : null,
+      body: body,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +49,18 @@ class App extends StatelessWidget {
               ),
             ),
       ),
-      home: const CategoriesScreen(),
+      home: const TabsScreen(),
       routes: {
         CategoryMealsScreen.routeName: (context) => const CategoryMealsScreen(),
         MealDetailsScreen.routeName: (context) => const MealDetailsScreen(),
+        CategoriesScreen.routeName: (context) => buildScaffold(
+              body: const CategoriesScreen(),
+              title: 'Categories',
+            ),
+        FavouritesScreen.routeName: (context) => buildScaffold(
+              body: const FavouritesScreen(),
+              title: 'Favourites',
+            ),
       },
     );
   }
