@@ -18,7 +18,7 @@ class MealDetailsToggleButtons extends StatefulWidget {
 class _MealDetailsToggleButtonsState extends State<MealDetailsToggleButtons> {
   final _isSelected = [true, false];
 
-  Container renderList({
+  Widget renderList({
     required List<String> list,
     required Color backgroundColor,
   }) {
@@ -40,7 +40,7 @@ class _MealDetailsToggleButtonsState extends State<MealDetailsToggleButtons> {
     );
   }
 
-  Container renderToggleTab({
+  Widget renderToggleTab({
     required bool isSelected,
     required String text,
     required Color selectedColor,
@@ -97,20 +97,20 @@ class _MealDetailsToggleButtonsState extends State<MealDetailsToggleButtons> {
             renderToggleTab(
               isSelected: _isSelected[0],
               text: 'Ingredients',
+              unselectedBorderRadius: const BorderRadius.only(bottomRight: Radius.circular(15)),
+              selectedBorderRadius: selectedBorderRadius,
               selectedColor: selectedColor,
               unSelectedColor: unSelectedColor,
-              selectedBorderRadius: selectedBorderRadius,
-              unselectedBorderRadius: const BorderRadius.only(bottomRight: Radius.circular(15)),
               height: buttonHeight,
               width: buttonWidth,
             ),
             renderToggleTab(
               isSelected: _isSelected[1],
               text: 'Steps',
+              unselectedBorderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15)),
+              selectedBorderRadius: selectedBorderRadius,
               selectedColor: selectedColor,
               unSelectedColor: unSelectedColor,
-              selectedBorderRadius: selectedBorderRadius,
-              unselectedBorderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15)),
               height: buttonHeight,
               width: buttonWidth,
             ),
