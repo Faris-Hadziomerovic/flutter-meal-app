@@ -29,47 +29,55 @@ class MealDetailsScreen extends StatelessWidget {
               fit: BoxFit.cover,
             ),
             Container(
-              padding: const EdgeInsets.only(
-                left: 15,
-                right: 15,
-                top: 10,
+              padding: const EdgeInsets.symmetric(
+                vertical: 10,
+                horizontal: 15,
               ),
               child: Text(
                 meal.title,
                 style: Theme.of(context).textTheme.headline4,
               ),
             ),
-            const Divider(height: 30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Row(
-                  children: [
-                    const Icon(Icons.access_time_rounded),
-                    const SizedBox(width: 5),
-                    Text(meal.durationLabel),
-                  ],
+            Container(
+              height: 55,
+              decoration: BoxDecoration(
+                border: Border.symmetric(
+                  horizontal: BorderSide(
+                    width: 0,
+                    color: Theme.of(context).dividerColor,
+                  ),
                 ),
-                Row(
-                  children: [
-                    const Icon(Icons.work),
-                    const SizedBox(width: 5),
-                    Text(meal.complexityLabel),
-                  ],
-                ),
-                Row(
-                  children: [
-                    const Icon(Icons.attach_money_rounded),
-                    Text(meal.affordabilityLabel),
-                  ],
-                ),
-              ],
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Row(
+                    children: [
+                      const Icon(Icons.access_time_rounded),
+                      const SizedBox(width: 5),
+                      Text(meal.durationLabel),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Icon(Icons.work),
+                      const SizedBox(width: 5),
+                      Text(meal.complexityLabel),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Icon(Icons.attach_money_rounded),
+                      Text(meal.affordabilityLabel),
+                    ],
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(height: 15),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 0.0),
-              child: MealDetailsToggleButtons(ingredients: meal.ingredients, steps: meal.steps),
-            )
+            MealDetailsToggleButtons(
+              ingredients: meal.ingredients,
+              steps: meal.steps,
+            ),
           ],
         ),
       ),
