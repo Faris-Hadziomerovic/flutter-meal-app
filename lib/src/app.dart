@@ -25,6 +25,7 @@ class App extends StatelessWidget {
         // ignore: deprecated_member_use
         accentColor: Colors.amber,
         canvasColor: const Color.fromARGB(255, 238, 238, 238),
+        backgroundColor: Colors.white,
         cardTheme: const CardTheme(
           elevation: 5,
         ),

@@ -4,11 +4,21 @@ import 'package:collection/collection.dart';
 class MealDetailsToggleButtons extends StatefulWidget {
   final List<String> ingredients;
   final List<String> steps;
+  final double buttonHeight;
+  final Color? unselectedBackgroundColor;
+  final Color? selectedBackgroundColor;
+  final Color? unselectedForegroundColor;
+  final Color? selectedForegroundColor;
 
   const MealDetailsToggleButtons({
     super.key,
     required this.ingredients,
     required this.steps,
+    this.buttonHeight = 45.0,
+    this.unselectedBackgroundColor,
+    this.selectedBackgroundColor,
+    this.selectedForegroundColor,
+    this.unselectedForegroundColor,
   });
 
   @override
@@ -20,7 +30,7 @@ class _MealDetailsToggleButtonsState extends State<MealDetailsToggleButtons> {
 
   Widget buildList({
     required List<String> list,
-    required Color backgroundColor,
+    Color? backgroundColor,
   }) {
     return Container(
       color: backgroundColor,
@@ -44,19 +54,19 @@ class _MealDetailsToggleButtonsState extends State<MealDetailsToggleButtons> {
     required bool isSelected,
     required String text,
     required Color selectedColor,
-    required Color unSelectedColor,
+    required Color unselectedColor,
     required double width,
     required double height,
     required BorderRadius selectedBorderRadius,
     required BorderRadius unselectedBorderRadius,
   }) {
     return Container(
-      color: isSelected ? unSelectedColor : selectedColor,
+      color: isSelected ? unselectedColor : selectedColor,
       width: width,
       height: height,
       child: Container(
         decoration: BoxDecoration(
-          color: isSelected ? selectedColor : unSelectedColor,
+          color: isSelected ? selectedColor : unselectedColor,
           borderRadius: isSelected ? selectedBorderRadius : unselectedBorderRadius,
         ),
         child: Center(
@@ -66,66 +76,151 @@ class _MealDetailsToggleButtonsState extends State<MealDetailsToggleButtons> {
     );
   }
 
+  Widget buildToggleButtonTabV2({
+    required bool isSelected,
+    required String text,
+    required Color selectedColor,
+    required Color unselectedColor,
+    required double width,
+    double? height,
+    AxisDirection openSideDirection = AxisDirection.down,
+    Radius borderRadius = const Radius.circular(15),
+    int centerFlex = 15,
+    int sidesFlex = 1,
+  }) {
+    Axis axis;
+    BorderRadius borderRadiusFirst;
+    BorderRadius borderRadiusCenter;
+    BorderRadius borderRadiusLast;
+
+    switch (openSideDirection) {
+      case AxisDirection.left:
+        axis = Axis.vertical;
+        borderRadiusCenter = BorderRadius.horizontal(right: borderRadius);
+        borderRadiusFirst = BorderRadius.only(bottomLeft: borderRadius);
+        borderRadiusLast = BorderRadius.only(topLeft: borderRadius);
+        break;
+      case AxisDirection.right:
+        axis = Axis.vertical;
+        borderRadiusCenter = BorderRadius.horizontal(left: borderRadius);
+        borderRadiusFirst = BorderRadius.only(bottomRight: borderRadius);
+        borderRadiusLast = BorderRadius.only(topRight: borderRadius);
+        break;
+      case AxisDirection.up:
+        axis = Axis.horizontal;
+        borderRadiusCenter = BorderRadius.vertical(bottom: borderRadius);
+        borderRadiusFirst = BorderRadius.only(topRight: borderRadius);
+        borderRadiusLast = BorderRadius.only(topLeft: borderRadius);
+        break;
+      default:
+        axis = Axis.horizontal;
+        borderRadiusCenter = BorderRadius.vertical(top: borderRadius);
+        borderRadiusFirst = BorderRadius.only(bottomRight: borderRadius);
+        borderRadiusLast = BorderRadius.only(bottomLeft: borderRadius);
+    }
+
+    return SizedBox(
+      width: width,
+      height: height,
+      child: Flex(
+        direction: axis,
+        children: [
+          // first concave border part
+          Flexible(
+            flex: sidesFlex,
+            child: Container(
+              color: isSelected ? selectedColor : unselectedColor,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: unselectedColor,
+                  borderRadius: isSelected ? borderRadiusFirst : null,
+                ),
+              ),
+            ),
+          ),
+          // center part
+          Flexible(
+            flex: centerFlex,
+            child: Container(
+              color: isSelected ? unselectedColor : selectedColor,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: isSelected ? selectedColor : unselectedColor,
+                  borderRadius: isSelected ? borderRadiusCenter : null,
+                ),
+                child: Center(
+                  child: Text(text),
+                ),
+              ),
+            ),
+          ),
+          // last concave border part
+          Flexible(
+            flex: sidesFlex,
+            child: Container(
+              color: isSelected ? selectedColor : unselectedColor,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: unselectedColor,
+                  borderRadius: isSelected ? borderRadiusLast : null,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final selectedColor = widget.selectedBackgroundColor ?? Theme.of(context).canvasColor;
+    final unselectedColor = widget.unselectedBackgroundColor ?? Theme.of(context).backgroundColor;
     final screenWidth = MediaQuery.of(context).size.width;
     final buttonWidth = screenWidth / 2;
-    const buttonHeight = 50.0;
-    const unSelectedColor = Colors.white;
-    const selectedColor = Color.fromARGB(255, 243, 243, 243);
-    const selectedBorderRadius = BorderRadius.vertical(top: Radius.circular(20));
+    final buttonHeight = widget.buttonHeight;
 
     return Column(
       children: [
-        ToggleButtons(
-          renderBorder: false,
-          fillColor: Colors.white,
-          textStyle: const TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'Raleway',
+        SizedBox(
+          height: buttonHeight,
+          child: ToggleButtons(
+            color: widget.unselectedForegroundColor,
+            selectedColor: widget.selectedForegroundColor,
+            renderBorder: false,
+            textStyle: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Raleway',
+            ),
+            isSelected: _isSelected,
+            onPressed: (index) {
+              for (var i = 0; i < _isSelected.length; i++) {
+                setState(() {
+                  _isSelected[i] = i == index;
+                });
+              }
+            },
+            children: [
+              buildToggleButtonTabV2(
+                isSelected: _isSelected[0],
+                text: 'Ingredients',
+                selectedColor: selectedColor,
+                unselectedColor: unselectedColor,
+                width: buttonWidth,
+              ),
+              buildToggleButtonTabV2(
+                isSelected: _isSelected[1],
+                text: 'Steps',
+                selectedColor: selectedColor,
+                unselectedColor: unselectedColor,
+                width: buttonWidth,
+              ),
+            ],
           ),
-          isSelected: _isSelected,
-          onPressed: (index) {
-            for (var i = 0; i < _isSelected.length; i++) {
-              setState(() {
-                _isSelected[i] = i == index;
-              });
-            }
-          },
-          children: [
-            buildToggleButtonTab(
-              isSelected: _isSelected[0],
-              text: 'Ingredients',
-              unselectedBorderRadius: const BorderRadius.only(bottomRight: Radius.circular(15)),
-              selectedBorderRadius: selectedBorderRadius,
-              selectedColor: selectedColor,
-              unSelectedColor: unSelectedColor,
-              height: buttonHeight,
-              width: buttonWidth,
-            ),
-            buildToggleButtonTab(
-              isSelected: _isSelected[1],
-              text: 'Steps',
-              unselectedBorderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15)),
-              selectedBorderRadius: selectedBorderRadius,
-              selectedColor: selectedColor,
-              unSelectedColor: unSelectedColor,
-              height: buttonHeight,
-              width: buttonWidth,
-            ),
-          ],
         ),
-        if (_isSelected[0])
-          buildList(
-            list: widget.ingredients,
-            backgroundColor: selectedColor,
-          ),
-        if (_isSelected[1])
-          buildList(
-            list: widget.steps,
-            backgroundColor: selectedColor,
-          ),
+        if (_isSelected[0]) buildList(list: widget.ingredients),
+        if (_isSelected[1]) buildList(list: widget.steps),
       ],
     );
   }

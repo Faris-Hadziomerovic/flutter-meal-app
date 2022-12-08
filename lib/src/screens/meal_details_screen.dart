@@ -13,22 +13,27 @@ class MealDetailsScreen extends StatelessWidget {
     final mealId = ModalRoute.of(context)?.settings.arguments as String;
     final meal = dummyMeals.firstWhere((meal) => meal.id == mealId);
 
+    final backgroundColor = Theme.of(context).backgroundColor;
+
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(meal.title),
       ),
       body: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Image.network(
-              meal.imageUrl,
-              width: double.infinity,
-              height: 250,
-              fit: BoxFit.cover,
+            Container(
+              color: backgroundColor,
+              child: Image.network(
+                meal.imageUrl,
+                width: double.infinity,
+                height: 250,
+                fit: BoxFit.cover,
+              ),
             ),
             Container(
+              color: backgroundColor,
               padding: const EdgeInsets.symmetric(
                 vertical: 10,
                 horizontal: 15,
@@ -41,6 +46,7 @@ class MealDetailsScreen extends StatelessWidget {
             Container(
               height: 55,
               decoration: BoxDecoration(
+                color: backgroundColor,
                 border: Border.symmetric(
                   horizontal: BorderSide(
                     width: 0,
