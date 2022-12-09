@@ -28,6 +28,59 @@ class MealDetailsToggleButtons extends StatefulWidget {
 class _MealDetailsToggleButtonsState extends State<MealDetailsToggleButtons> {
   final _isSelected = [true, false];
 
+  @override
+  Widget build(BuildContext context) {
+    final selectedColor = widget.selectedBackgroundColor ?? Theme.of(context).canvasColor;
+    final unselectedColor = widget.unselectedBackgroundColor ?? Theme.of(context).backgroundColor;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final buttonWidth = screenWidth / 2;
+    final buttonHeight = widget.buttonHeight;
+
+    return Column(
+      children: [
+        SizedBox(
+          height: buttonHeight,
+          child: ToggleButtons(
+            color: widget.unselectedForegroundColor,
+            selectedColor: widget.selectedForegroundColor,
+            renderBorder: false,
+            textStyle: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Raleway',
+            ),
+            isSelected: _isSelected,
+            onPressed: (index) {
+              for (var i = 0; i < _isSelected.length; i++) {
+                setState(() {
+                  _isSelected[i] = i == index;
+                });
+              }
+            },
+            children: [
+              buildToggleButtonTabV2(
+                isSelected: _isSelected[0],
+                text: 'Ingredients',
+                selectedColor: selectedColor,
+                unselectedColor: unselectedColor,
+                width: buttonWidth,
+              ),
+              buildToggleButtonTabV2(
+                isSelected: _isSelected[1],
+                text: 'Steps',
+                selectedColor: selectedColor,
+                unselectedColor: unselectedColor,
+                width: buttonWidth,
+              ),
+            ],
+          ),
+        ),
+        if (_isSelected[0]) buildList(list: widget.ingredients),
+        if (_isSelected[1]) buildList(list: widget.steps),
+      ],
+    );
+  }
+
   Widget buildList({
     required List<String> list,
     Color? backgroundColor,
@@ -169,59 +222,6 @@ class _MealDetailsToggleButtonsState extends State<MealDetailsToggleButtons> {
           ),
         ],
       ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final selectedColor = widget.selectedBackgroundColor ?? Theme.of(context).canvasColor;
-    final unselectedColor = widget.unselectedBackgroundColor ?? Theme.of(context).backgroundColor;
-    final screenWidth = MediaQuery.of(context).size.width;
-    final buttonWidth = screenWidth / 2;
-    final buttonHeight = widget.buttonHeight;
-
-    return Column(
-      children: [
-        SizedBox(
-          height: buttonHeight,
-          child: ToggleButtons(
-            color: widget.unselectedForegroundColor,
-            selectedColor: widget.selectedForegroundColor,
-            renderBorder: false,
-            textStyle: const TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Raleway',
-            ),
-            isSelected: _isSelected,
-            onPressed: (index) {
-              for (var i = 0; i < _isSelected.length; i++) {
-                setState(() {
-                  _isSelected[i] = i == index;
-                });
-              }
-            },
-            children: [
-              buildToggleButtonTabV2(
-                isSelected: _isSelected[0],
-                text: 'Ingredients',
-                selectedColor: selectedColor,
-                unselectedColor: unselectedColor,
-                width: buttonWidth,
-              ),
-              buildToggleButtonTabV2(
-                isSelected: _isSelected[1],
-                text: 'Steps',
-                selectedColor: selectedColor,
-                unselectedColor: unselectedColor,
-                width: buttonWidth,
-              ),
-            ],
-          ),
-        ),
-        if (_isSelected[0]) buildList(list: widget.ingredients),
-        if (_isSelected[1]) buildList(list: widget.steps),
-      ],
     );
   }
 }
