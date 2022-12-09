@@ -24,6 +24,7 @@ class Meal {
   final bool isLactoseFree;
   final bool isVegan;
   final bool isVegetarian;
+  bool isFavourite;
 
   String get complexityLabel {
     switch (complexity) {
@@ -55,7 +56,7 @@ class Meal {
     return '$duration min';
   }
 
-  const Meal({
+  Meal({
     required this.id,
     required this.title,
     required this.imageUrl,
@@ -69,5 +70,6 @@ class Meal {
     required this.isLactoseFree,
     required this.isVegan,
     required this.isVegetarian,
+    this.isFavourite = false,
   });
 }

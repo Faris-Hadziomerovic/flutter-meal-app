@@ -56,9 +56,10 @@ const dummyCategories = [
   ),
 ];
 
-const dummyMeals = [
+final dummyMeals = [
   Meal(
     id: 'm1',
+    isFavourite: true,
     categories: [
       'c1',
       'c2',
@@ -93,6 +94,7 @@ const dummyMeals = [
   ),
   Meal(
     id: 'm2',
+    // isFavourite: true,
     categories: [
       'c2',
     ],
