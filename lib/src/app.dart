@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:meal_app/src/screens/filters_screen.dart';
+import 'package:meal_app/src/widgets/main_drawer.dart';
 
 import './screens/tabs_screen.dart';
 import './screens/categories_screen.dart';
@@ -9,9 +11,10 @@ import './screens/meal_details_screen.dart';
 class App extends StatelessWidget {
   const App({super.key});
 
-  Scaffold buildScaffold({required Widget body, String title = ''}) {
+  Scaffold buildScaffold({required Widget body, String title = '', bool includeDrawer = false}) {
     return Scaffold(
       appBar: title.isNotEmpty ? AppBar(title: Text(title)) : null,
+      drawer: includeDrawer ? const MainDrawer() : null,
       body: body,
     );
   }
@@ -61,6 +64,12 @@ class App extends StatelessWidget {
         FavouritesScreen.routeName: (context) => buildScaffold(
               body: const FavouritesScreen(),
               title: 'Favourites',
+              includeDrawer: true,
+            ),
+        FiltersScreen.routeName: (context) => buildScaffold(
+              body: const FiltersScreen(),
+              title: 'Filters',
+              includeDrawer: true,
             ),
       },
     );

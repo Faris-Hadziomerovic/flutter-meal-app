@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:meal_app/src/screens/favourites_screen.dart';
+import 'package:meal_app/src/screens/filters_screen.dart';
 
 class MainDrawer extends StatelessWidget {
   final String title;
@@ -61,12 +63,16 @@ class MainDrawer extends StatelessWidget {
               buildListTile(
                 icon: Icons.restaurant,
                 title: 'Meals',
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).pushReplacementNamed('/');
+                },
               ),
               buildListTile(
                 icon: Icons.star,
                 title: 'Favourites',
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).pushReplacementNamed(FavouritesScreen.routeName);
+                },
               ),
             ],
           ),
@@ -76,7 +82,9 @@ class MainDrawer extends StatelessWidget {
               buildListTile(
                 icon: Icons.settings,
                 title: 'Filters',
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).pushReplacementNamed(FiltersScreen.routeName);
+                },
               ),
             ],
           ),
