@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
-import 'package:meal_app/src/widgets/main_drawer.dart';
 
+import '../widgets/main_drawer.dart';
 import './categories_screen.dart';
 import './favourites_screen.dart';
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:meal_app/src/screens/favourites_screen.dart';
-import 'package:meal_app/src/screens/filters_screen.dart';
+
+import '../screens/favourites_screen.dart';
+import '../screens/filters_screen.dart';
 
 class MainDrawer extends StatelessWidget {
   final String title;

@@ -94,7 +94,6 @@ final dummyMeals = [
   ),
   Meal(
     id: 'm2',
-    // isFavourite: true,
     categories: [
       'c2',
     ],

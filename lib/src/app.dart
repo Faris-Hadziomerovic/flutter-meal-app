@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:meal_app/src/screens/filters_screen.dart';
-import 'package:meal_app/src/widgets/main_drawer.dart';
 
+import './screens/filters_screen.dart';
+import './widgets/main_drawer.dart';
 import './screens/tabs_screen.dart';
 import './screens/categories_screen.dart';
 import './screens/favourites_screen.dart';
