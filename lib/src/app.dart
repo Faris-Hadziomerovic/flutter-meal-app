@@ -1,22 +1,52 @@
 import 'package:flutter/material.dart';
 
 import './screens/filters_screen.dart';
-import './widgets/main_drawer.dart';
 import './screens/tabs_screen.dart';
 import './screens/categories_screen.dart';
 import './screens/favourites_screen.dart';
 import './screens/category_meals_screen.dart';
 import './screens/meal_details_screen.dart';
+import './widgets/main_drawer.dart';
+import './models/meal.dart';
+import './data/dummy_data.dart';
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
   const App({super.key});
 
-  Scaffold buildScaffold({required Widget body, String title = '', bool includeDrawer = false}) {
-    return Scaffold(
-      appBar: title.isNotEmpty ? AppBar(title: Text(title)) : null,
-      drawer: includeDrawer ? const MainDrawer() : null,
-      body: body,
-    );
+  @override
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  var _filters = {
+    'gluten': false,
+    'lactose': false,
+    'vegetarian': false,
+    'vegan': false,
+  };
+
+  late List<Meal> availableMeals;
+
+  @override
+  void initState() {
+    super.initState();
+
+    availableMeals = dummyMeals;
+  }
+
+  void _onSave(Map<String, bool> newFilters) {
+    setState(() {
+      _filters = newFilters;
+
+      availableMeals = dummyMeals.where((meal) {
+        if (_filters['gluten'] as bool && !meal.isGlutenFree) return false;
+        if (_filters['lactose'] as bool && !meal.isLactoseFree) return false;
+        if (_filters['vegetarian'] as bool && !meal.isVegetarian) return false;
+        if (_filters['vegan'] as bool && !meal.isVegan) return false;
+
+        return true;
+      }).toList();
+    });
   }
 
   @override
@@ -55,8 +85,14 @@ class App extends StatelessWidget {
       ),
       home: const TabsScreen(),
       routes: {
-        CategoryMealsScreen.routeName: (context) => const CategoryMealsScreen(),
         MealDetailsScreen.routeName: (context) => const MealDetailsScreen(),
+        CategoryMealsScreen.routeName: (context) => CategoryMealsScreen(availableMeals),
+        FiltersScreen.routeName: (context) {
+          return FiltersScreen(
+            filters: _filters,
+            onSave: _onSave,
+          );
+        },
         CategoriesScreen.routeName: (context) => buildScaffold(
               body: const CategoriesScreen(),
               title: 'Categories',
@@ -66,12 +102,15 @@ class App extends StatelessWidget {
               title: 'Favourites',
               includeDrawer: true,
             ),
-        FiltersScreen.routeName: (context) => buildScaffold(
-              body: const FiltersScreen(),
-              title: 'Filters',
-              includeDrawer: true,
-            ),
       },
+    );
+  }
+
+  Scaffold buildScaffold({required Widget body, String title = '', bool includeDrawer = false}) {
+    return Scaffold(
+      appBar: title.isNotEmpty ? AppBar(title: Text(title)) : null,
+      drawer: includeDrawer ? const MainDrawer() : null,
+      body: body,
     );
   }
 }
