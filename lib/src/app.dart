@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import './screens/filters_screen.dart';
 import './screens/tabs_screen.dart';
@@ -18,6 +19,10 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+  List<Meal> availableMeals = dummyMeals;
+
+  List<Meal> favouriteMeals = [];
+
   var _filters = {
     'gluten': false,
     'lactose': false,
@@ -25,13 +30,38 @@ class _AppState extends State<App> {
     'vegan': false,
   };
 
-  late List<Meal> availableMeals;
+  bool _isMealFavourite(String mealId) {
+    return favouriteMeals.isNotEmpty && favouriteMeals.any((meal) => meal.id == mealId);
+  }
 
-  @override
-  void initState() {
-    super.initState();
+  void _onToggleFavourite(String mealId) {
+    Meal meal;
 
-    availableMeals = dummyMeals;
+    try {
+      meal = dummyMeals.firstWhere((meal) => meal.id == mealId);
+    } on StateError {
+      Fluttertoast.showToast(
+        msg: 'An error occured! Please contact the developers.',
+        backgroundColor: Colors.black54,
+      );
+
+      return;
+    }
+
+    setState(() {
+      if (!favouriteMeals.remove(meal)) {
+        favouriteMeals.add(meal);
+        Fluttertoast.showToast(
+          msg: '${meal.title} added to favourites',
+          backgroundColor: Colors.black54,
+        );
+      } else {
+        Fluttertoast.showToast(
+          msg: '${meal.title} removed to favourites',
+          backgroundColor: Colors.black54,
+        );
+      }
+    });
   }
 
   void _onSave(Map<String, bool> newFilters) {
@@ -56,12 +86,10 @@ class _AppState extends State<App> {
       theme: ThemeData(
         primarySwatch: Colors.pink,
         // ignore: deprecated_member_use
-        accentColor: Colors.amber,
+        // accentColor: Colors.amber,
         canvasColor: const Color.fromARGB(255, 238, 238, 238),
         backgroundColor: Colors.white,
-        cardTheme: const CardTheme(
-          elevation: 5,
-        ),
+        cardTheme: const CardTheme(elevation: 5),
         fontFamily: 'Raleway',
         iconTheme: ThemeData.light().iconTheme.copyWith(color: Colors.black54),
         textTheme: ThemeData.light().textTheme.copyWith(
@@ -83,9 +111,12 @@ class _AppState extends State<App> {
               ),
             ),
       ),
-      home: const TabsScreen(),
+      home: TabsScreen(favouriteMeals: favouriteMeals),
       routes: {
-        MealDetailsScreen.routeName: (context) => const MealDetailsScreen(),
+        MealDetailsScreen.routeName: (context) => MealDetailsScreen(
+              onFavourite: _onToggleFavourite,
+              determineFavouriteStatus: _isMealFavourite,
+            ),
         CategoryMealsScreen.routeName: (context) => CategoryMealsScreen(availableMeals),
         FiltersScreen.routeName: (context) {
           return FiltersScreen(
@@ -98,7 +129,7 @@ class _AppState extends State<App> {
               title: 'Categories',
             ),
         FavouritesScreen.routeName: (context) => buildScaffold(
-              body: const FavouritesScreen(),
+              body: FavouritesScreen(meals: favouriteMeals),
               title: 'Favourites',
               includeDrawer: true,
             ),

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:meal_app/src/models/meal.dart';
 
 import '../widgets/meal_item.dart';
-import '../data/dummy_data.dart';
 
 class FavouritesScreen extends StatelessWidget {
   static const String routeName = '/favourites';
 
-  const FavouritesScreen({super.key});
+  final List<Meal> meals;
+
+  const FavouritesScreen({super.key, required this.meals});
 
   @override
   Widget build(BuildContext context) {
-    final meals = dummyMeals.where((meal) => meal.isFavourite).toList();
-
     return meals.isEmpty
         ? const Center(
             child: Text('Your favourite meals will appear here.'),

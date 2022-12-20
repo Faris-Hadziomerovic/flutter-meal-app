@@ -6,11 +6,20 @@ import '../data/dummy_data.dart';
 class MealDetailsScreen extends StatelessWidget {
   static const routeName = '/meal-details';
 
-  const MealDetailsScreen({super.key});
+  final void Function(String mealId) onFavourite;
+
+  final bool Function(String mealId) determineFavouriteStatus;
+
+  const MealDetailsScreen({
+    super.key,
+    required this.onFavourite,
+    required this.determineFavouriteStatus,
+  });
 
   @override
   Widget build(BuildContext context) {
     final mealId = ModalRoute.of(context)?.settings.arguments as String;
+    final isFavourite = determineFavouriteStatus(mealId);
     final meal = dummyMeals.firstWhere((meal) => meal.id == mealId);
 
     final backgroundColor = Theme.of(context).backgroundColor;
@@ -18,6 +27,10 @@ class MealDetailsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(meal.title),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(isFavourite ? Icons.favorite : Icons.favorite_border_outlined),
+        onPressed: () => onFavourite(meal.id),
       ),
       body: SingleChildScrollView(
         child: Column(

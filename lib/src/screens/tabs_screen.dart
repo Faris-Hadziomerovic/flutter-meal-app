@@ -1,32 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 
+import '../models/meal.dart';
 import '../widgets/main_drawer.dart';
 import './categories_screen.dart';
 import './favourites_screen.dart';
 
 class TabsScreen extends StatefulWidget {
-  const TabsScreen({super.key});
+  final List<Meal> favouriteMeals;
+
+  const TabsScreen({super.key, required this.favouriteMeals});
 
   @override
   State<TabsScreen> createState() => _TabsScreenState();
 }
 
 class _TabsScreenState extends State<TabsScreen> {
-  final List<Map<String, Object>> _pages = [
-    {
-      'page': const CategoriesScreen(),
-      'title': 'Categories',
-      'icon': const Icon(Icons.category_outlined),
-      'activeIcon': const Icon(Icons.category),
-    },
-    {
-      'page': const FavouritesScreen(),
-      'title': 'Favourites',
-      'icon': const Icon(Icons.favorite_border),
-      'activeIcon': const Icon(Icons.favorite),
-    },
-  ];
+  late List<Map<String, Object>> _pages;
 
   int _pageIndex = 0;
 
@@ -34,6 +24,26 @@ class _TabsScreenState extends State<TabsScreen> {
     setState(() {
       _pageIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _pages = [
+      {
+        'page': const CategoriesScreen(),
+        'title': 'Categories',
+        'icon': const Icon(Icons.category_outlined),
+        'activeIcon': const Icon(Icons.category),
+      },
+      {
+        'page': FavouritesScreen(meals: widget.favouriteMeals),
+        'title': 'Favourites',
+        'icon': const Icon(Icons.favorite_border),
+        'activeIcon': const Icon(Icons.favorite),
+      },
+    ];
   }
 
   @override
@@ -65,48 +75,4 @@ class _TabsScreenState extends State<TabsScreen> {
       ),
     );
   }
-}
-
-Widget buildTopSideTabbedPage() {
-  return DefaultTabController(
-    length: 2,
-    child: Scaffold(
-      appBar: AppBar(
-        title: const Text('Deli meals'),
-        bottom: TabBar(
-          splashBorderRadius: const BorderRadius.vertical(
-            top: Radius.circular(20),
-          ),
-          tabs: [
-            Tab(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Icon(Icons.category_outlined),
-                  SizedBox(width: 10),
-                  Text('Categories'),
-                ],
-              ),
-            ),
-            Tab(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Icon(Icons.favorite_outline),
-                  SizedBox(width: 15),
-                  Text('Favourites'),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-      body: const TabBarView(
-        children: [
-          CategoriesScreen(),
-          FavouritesScreen(),
-        ],
-      ),
-    ),
-  );
 }
