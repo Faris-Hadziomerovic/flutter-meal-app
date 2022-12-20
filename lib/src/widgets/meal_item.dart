@@ -1,6 +1,38 @@
-import 'package:flutter/material.dart';
-import 'package:meal_app/src/screens/meal_details_screen.dart';
+import 'package:flutter/material.dart'
+    show
+        Alignment,
+        BorderRadius,
+        BoxDecoration,
+        BoxFit,
+        BuildContext,
+        Card,
+        Clip,
+        Colors,
+        Column,
+        Container,
+        EdgeInsets,
+        Icon,
+        Icons,
+        Image,
+        InkWell,
+        LinearGradient,
+        MainAxisAlignment,
+        Material,
+        Navigator,
+        Padding,
+        Positioned,
+        Radius,
+        RoundedRectangleBorder,
+        Row,
+        SizedBox,
+        Stack,
+        StatelessWidget,
+        Text,
+        TextOverflow,
+        Theme,
+        Widget;
 
+import '../screens/meal_details_screen.dart';
 import '../models/meal.dart';
 
 class MealItem extends StatelessWidget {
