@@ -55,7 +55,7 @@ class Meal {
     return '$duration min';
   }
 
-  Meal({
+  const Meal({
     required this.id,
     required this.title,
     required this.imageUrl,
